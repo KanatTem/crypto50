@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "entrypoint.sh"
+
 echo "Запускаем cron..."
 service cron start
 
@@ -7,6 +9,8 @@ service cron start
 if [ ! -d "vendor" ]; then
     echo "Installing Composer dependencies..."
     composer install
+else
+      echo "Зависимости уже установлены"
 fi
 
 # Копируем .env, если он отсутствует
@@ -22,6 +26,10 @@ php artisan key:generate
 # Запуск миграций
 echo "Running migrations..."
 php artisan migrate --force
+
+#  fetch
+echo "🌐 Получаем данные о топ-50 криптовалютах..."
+php artisan app:crypto:fetch
 
 # Запускаем PHP-FPM (важно — в foreground)
 echo "Starting PHP-FPM..."

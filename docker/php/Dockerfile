@@ -29,5 +29,6 @@ RUN chmod 0644 /etc/cron.d/laravel-cron && \
     crontab /etc/cron.d/laravel-cron
 
 ENTRYPOINT ["entrypoint.sh"]
+CMD ["sh", "-c", "cron && php-fpm"]
 
 
